@@ -5,38 +5,45 @@ import random
 import time
 import threading
 from tkinter.messagebox import askretrycancel
+from turtle import ycor
 
-
+xCoordinates = 700
+yCoordinates = 700
 actions  = ["press w", "press a", "press s", "press d", "single click", "double click", "triple click"]
 window = tk.Tk()
 window.configure(bg="black")
-window.geometry("700x500")
+window.geometry(f"{xCoordinates}x{yCoordinates}")
 
 
 def TimeInput():
     global inputTime
+    timerLength.config(state='disabled')
     inputTime = timer.get()
     inputTime = int(inputTime)
 
 def clock():
-    global timer
+    global timer, timerlabel
     timer = inputTime
     timeVar = tkinter.StringVar(value= str(inputTime))
     timerlabel = Label(window, textvariable=timeVar, height=2, width=5, font=("Comic Sans MS", 14))
     timerlabel.pack()
+    timerlabel.place(x=0, y=0)
     for i in range(inputTime):
         time.sleep(1)
         timer -= 1
         timeVar.set(str(timer))
+        if timer == 0:
+            retry()
 
+timerLengthInstruction = tkinter.Label(window, text="How long do you want to play? (seconds)")
+timerLengthInstruction.pack()
 timer = tkinter.StringVar(value=20)
 timerLength = tkinter.Entry(window,textvariable=timer)
 timerLength.pack()
-confirmButton = tkinter.Button(window,text="Confirm",command= TimeInput)
+confirmButton = tkinter.Button(window,text="Confirm configuration",command= TimeInput)
 confirmButton.pack()
 score = 0
-scoreLabel = Label(window, text=0, height=2, width=5, font=("Comic Sans MS", 14))
-scoreLabel.pack()
+
 
 def key_pressed(event):
     global score
@@ -56,8 +63,10 @@ def labelClick(event):
     action()
 
 def startTimer():
-    global counter, timerlabel
-    timerLength.config(state='disabled')
+    global counter, timerlabel, scoreLabel
+    scoreLabel = Label(window, text=0, height=2, width=5, font=("Comic Sans MS", 14))
+    scoreLabel.pack()
+    scoreLabel.place(x=640, y=0)
     counter = threading.Timer(1.0, clock).start()
     action()
 
@@ -79,8 +88,8 @@ def action():
         key()
     else:
         pass
-    randomX = random.randint(0,600)
-    randomY = random.randint(0,400)
+    randomX = random.randint(0,xCoordinates)
+    randomY = random.randint(0,yCoordinates)
     actionLabel = tkinter.Label(window, text=randomText,height=2, width=9, bg= "white", fg="black", font=("Comic Sans MS", 10))
     if randomText == "single click":
         actionLabel.bind("<Button-1>", labelClick)
@@ -95,13 +104,14 @@ def key():
     window.bind("<Key>",key_pressed)
 
 def retry():
-    global now, scoreLabel, e, timer
+    global scoreLabel, timer
     retry = askretrycancel("Retry?", f"""
     Your score: {score}.
     Do you want to retry?""")
     if retry:
         scoreLabel["text"] = 0
         actionLabel.destroy()
+        timerlabel.destroy()
         startTimer()
     else:
         window.destroy()
