@@ -5,7 +5,6 @@ import random
 import time
 import threading
 from tkinter.messagebox import askretrycancel
-from turtle import ycor
 
 xCoordinates = 700
 yCoordinates = 700
@@ -34,6 +33,7 @@ def clock():
         timeVar.set(str(timer))
         if timer == 0:
             retry()
+
 
 timerLengthInstruction = tkinter.Label(window, text="How long do you want to play? (seconds)")
 timerLengthInstruction.pack()
@@ -116,8 +116,9 @@ def retry():
     else:
         window.destroy()
 
-start = tk.Button(window, text="Click here to start", command=startTimer)
+start = tk.Button(window, text="Click here to start", width= 17, height= 1, command=startTimer)
 start.pack()
+start.place(x=285, y=100)
 
 
 window.mainloop()
