@@ -1,5 +1,3 @@
-from email import message
-from itertools import tee
 import tkinter as tk
 from tkinter import *
 import tkinter
