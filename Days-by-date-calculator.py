@@ -12,13 +12,7 @@ days = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14
 months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 dateLabel = tk.Label(window, text="Date:").pack()
 
-# check date
-dateCheck = datetime.datetime.now()
-currentDay = dateCheck.strftime("%d")
-currentMonth = dateCheck.strftime("%m")
-Year = dateCheck.strftime("%y")
-currentYear = str(20) + Year
-currentDate = int(currentDay), int(currentMonth), int(currentYear)
+currentDate = datetime.datetime(2022, 4, 4)
 print(currentDate)
 
 
@@ -28,27 +22,28 @@ def confirm():
     monthInput = monthsbox.get()
     index = months.index(monthInput)
     yearInput = yearsbox.get()
-    inputDate = int(daysInput), index + 1, int(yearInput)
+    inputDate = datetime.datetime(int(yearInput), index + 1, int(daysInput))
     print(inputDate)
-    if yearInput == "amogus":
-        messagebox.showinfo("amogus", "sus")
-    elif yearInput == "69":
+    date_diff = inputDate - currentDate
+    if yearInput == "69":
         messagebox.showerror("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
     elif inputDate == currentDate:
         messagebox.showerror("", "ITS A EPIC DAY!")
-    window.destroy()
+    else:
+        messagebox.showinfo("days calculator", f"the difference is: {date_diff}")
+    
 
 # year combobox
-year = tkinter.StringVar(value=currentYear)
+year = tkinter.StringVar(value=0)
 yearsbox = tkinter.Entry(window,textvariable=year)
 yearsbox.place(x=900, y=25)
 
 # days combobox
-daysbox = ttk.Combobox(window, textvariable= currentDay, values=days)
+daysbox = ttk.Combobox(window, text="", values=days)
 daysbox.place(x=500, y=25)
 
 # months combobox
-monthsbox = ttk.Combobox(window, textvariable=currentMonth, values=months)
+monthsbox = ttk.Combobox(window, text="", values=months)
 monthsbox.place(x=700, y=25)
 
 # confirmbutton
@@ -57,109 +52,3 @@ confirmButton.place(x=750, y=50)
 
 
 window.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
