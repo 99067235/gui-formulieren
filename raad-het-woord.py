@@ -6,7 +6,7 @@ import tkinter
 import tkinter as tk
 from tkinter import ttk
 from tkinter import END, messagebox
-from tkinter.messagebox import askretrycancel
+from tkinter.messagebox import askretrycancel, showwarning
 Letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 rounds = 0
 def destroyWindow():
@@ -89,6 +89,12 @@ def convertToList(string): # converts the right answer to a list
     wordlist[:0]=string
     return wordlist
 
+def no():
+    for i in range(10):
+        noWindow = tk.Tk()
+        noWindow.title("no")
+        noLabel = tk.Label(noWindow, text="NO").pack()
+    noWindow.protocol("WM_DELETE_WINDOW", no)
 def confirmButton(): # checks game configuration
     global gameWindow,wordLength, standardScore, upperWord
     wordEntryCheck = wordEntry.get()
@@ -100,6 +106,7 @@ def confirmButton(): # checks game configuration
         gameWindow = tk.Tk()
         gameWindow.title("Game window (Player 2)")
         gameWindow.geometry("500x500")
+        gameWindow.protocol("WM_DELETE_WINDOW", no)
         convertToList(upperWord)
         game()
     elif wordLength == 0:
