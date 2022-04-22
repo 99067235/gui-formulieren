@@ -1,4 +1,5 @@
 from email import message
+from time import strftime
 import tkinter as tk
 from tkinter import *
 import tkinter
@@ -12,38 +13,40 @@ days = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14
 months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 dateLabel = tk.Label(window, text="Date:").pack()
 
-currentDate = datetime.datetime(2022, 4, 4)
-print(currentDate)
 
 
 # confirm button
 def confirm():
-    daysInput = daysbox.get()
-    monthInput = monthsbox.get()
-    index = months.index(monthInput)
-    yearInput = yearsbox.get()
-    inputDate = datetime.datetime(int(yearInput), index + 1, int(daysInput))
-    print(inputDate)
-    date_diff = inputDate - currentDate
-    if yearInput == "69":
-        messagebox.showerror("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    elif inputDate == currentDate:
-        messagebox.showerror("", "ITS A EPIC DAY!")
-    else:
-        messagebox.showinfo("days calculator", f"the difference is: {date_diff}")
+    selectedDate = [selectedYear.get(),selectedMonth.get(),selectedDay.get()]
+    whatMonth = months.index(f"{selectedMonth.get()}") + 1
+    try:
+        today = date.today()
+        d1 = today.strftime("%d/%m/%Y")
+        d2 = d1.split('/')
+        d0 = date(int(d2[2]),int(d2[1]),int(d2[0]))
+        d1 = date(int(selectedYear.get()), whatMonth, int(selectedDay.get()))
+        delta = d1 - d0
+        if delta.days == 0:
+            messagebox.showinfo("DATE", f"That is today!")
+        else:
+            messagebox.showinfo("DATE", f"The epic difference is {delta.days} epic days.")
+    except ValueError:
+        messagebox.showinfo("AAAAAAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n That is not right.")
     
 
 # year combobox
-year = tkinter.StringVar(value=0)
-yearsbox = tkinter.Entry(window,textvariable=year)
+selectedYear = tkinter.StringVar()
+yearsbox = tkinter.Entry(window,textvariable=selectedYear)
 yearsbox.place(x=900, y=25)
 
 # days combobox
-daysbox = ttk.Combobox(window, text="", values=days)
+selectedDay = tkinter.StringVar()
+daysbox = ttk.Combobox(window, text="", values=days, textvariable=selectedDay)
 daysbox.place(x=500, y=25)
 
 # months combobox
-monthsbox = ttk.Combobox(window, text="", values=months)
+selectedMonth = tkinter.StringVar()
+monthsbox = ttk.Combobox(window, text="", values=months, textvariable=selectedMonth)
 monthsbox.place(x=700, y=25)
 
 # confirmbutton
